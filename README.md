@@ -24,6 +24,8 @@ To start the the node.js server go into the root directory and run
 The server will watch any file changes, automatically lint your script and restart the server.
 
 
+<img src="http://haus11.org/sails_srest.PNG" width="600" align="center"/>
 
-![alt tag](http://haus11.org/sails_srest.PNG)
-![alt tag](http://haus11.org/sails_srest2.PNG)
+
+
+<img src="http://haus11.org/sails_srest2.PNG" width="600" align="center"/>
