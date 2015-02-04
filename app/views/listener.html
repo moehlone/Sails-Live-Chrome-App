@@ -1,0 +1,54 @@
+<div class="row clearfix">
+  <div class="col-md-12 column">
+    <h1>Listener</h1>
+    <form role="form" name="listenerForm">
+      <div class="form-group">
+        <div class="row clearfix">
+          <div class="col-xs-10">
+            <label for="listener-event">Event</label>
+          </div>
+          <div class="col-xs-2"></div>
+        </div>
+        <div class="row clearfix">
+          <div class="col-xs-10">
+            <input placeholder="user:create" type="text" class="form-control" id="listener-event" name="listener-event" ng-model="listenerEvent" required/>
+          </div>
+          <div class="col-xs-2">
+            <button type="submit" id="btn-add-listener" class="btn btn-primary btn-block" ng-click="addListener();" ng-disabled="listenerForm.$invalid">Add</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row clearfix">
+  <div class="col-md-12 column">
+    <span ng-show="!listeners.length">No listeners created yet</span>
+    <ul accordion ui-sortable="sortableOptions" close-others="oneAtATime" ng-model="listeners">
+      <li accordion-group ng-repeat="listener in listeners" is-open="listener.panelOpen" ng-animate="'animate'">
+        <accordion-heading>
+
+          <div class="btn-group pull-right" role="group">
+            <div class="btn btn-default handle"><i class="glyphicon glyphicon-move"></i></div>
+            <div class="btn btn-default"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': request.panelOpen, 'glyphicon-chevron-right': !request.panelOpen}"></i></div>
+          </div>
+
+          {{listener.event}}
+        </accordion-heading>
+        <accordion-body>
+          <div class="form-group">
+            <label>Event</label>
+            <input type="text" class="form-control" ng-model="listener.event"/>
+          </div>
+          <div class="form-group">
+            <label>JSON Response</label>
+            <json-formatter open="1" json="listener.response"></json-formatter>
+          </div>
+          <div class="form-group">
+            <div class="btn btn-danger pull-right" ng-click="removeListener($index);">Remove</div>
+          </div>
+        </accordion-body>
+      </li>
+    </ul>
+  </div>
+</div>

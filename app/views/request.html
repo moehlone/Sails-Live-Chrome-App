@@ -1,0 +1,74 @@
+<div class="row clearfix">
+  <div class="col-md-12 column">
+    <h1>Request</h1>
+    <form role="form" name="requestForm">
+      <div class="form-group">
+        <div class="row clearfix">
+          <div class="col-xs-6">
+            <label for="request-path">Path</label>
+          </div>
+          <div class="col-xs-4">
+            <label for="request-type">Type</label>
+          </div>
+          <div class="col-xs-2"></div>
+        </div>
+        <div class="row clearfix">
+          <div class="col-xs-6"><input placeholder="/api/user" type="text" class="form-control" id="request-path" name="request-path" ng-model="requestPath" required/></div>
+          <div class="col-xs-4">
+            <select id="request-type" class="form-control" ng-options="requestType as requestType.name for requestType in requestTypes" name="request-type" ng-model="requestType" required>
+              <option value="">Select Type</option>
+            </select>
+          </div>
+          <div class="col-xs-2">
+            <button type="submit" id="btn-add-request" class="btn btn-primary btn-block" ng-click="addRequest();" ng-disabled="requestForm.$invalid">Add</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row clearfix">
+  <div class="col-md-12 column">
+    <span ng-show="!requests.length">No requests created yet</span>
+    <ul accordion ui-sortable="sortableOptions" close-others="oneAtATime" ng-model="requests">
+      <li accordion-group ng-repeat="request in requests" is-open="request.panelOpen" ng-animate="'animate'">
+        <accordion-heading>
+
+          <div class="btn-group pull-right" role="group">
+            <div class="btn btn-default handle"><i class="glyphicon glyphicon-move"></i></div>
+            <div class="btn btn-default"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': request.panelOpen, 'glyphicon-chevron-right': !request.panelOpen}"></i></div>
+          </div>
+
+          {{request.type.name}} {{request.path}}
+        </accordion-heading>
+        <accordion-body>
+          <div class="form-group">
+            <label>Path</label>
+            <input type="text" class="form-control" ng-model="request.path"/>
+          </div>
+          <div class="form-group">
+            <label>JSON Payload</label>
+            <textarea class="form-control" rows="3" ng-model="request.parameters">
+              {{request.parameters}}
+            </textarea>
+          </div>
+          <div class="form-group">
+            <label>Data Response</label>
+            <json-formatter ng-show="request.responseDataIsJSON" open="1" json="request.responseData"></json-formatter>
+            <textarea ng-readonly="" ng-show="!request.responseDataIsJSON" class="form-control" rows="3" ng-model="request.parameters">
+              {{request.responseData}}
+            </textarea>
+          </div>
+          <div class="form-group">
+            <label>JSON WebSocket Response</label>
+            <json-formatter open="1" json="request.response"></json-formatter>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-click="sendRequest(request);" ng-disabled="request.active">Send</button>
+            <div class="btn btn-danger pull-right" ng-click="removeRequest($index);">Remove</div>
+          </div>
+        </accordion-body>
+      </li>
+    </ul>
+  </div>
+</div>
