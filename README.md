@@ -3,6 +3,15 @@ Sails-SRESTClient
 
 A debugger for RESTful sails.js socket services
 
+
+
+<img src="http://haus11.org/sails_srest.PNG" width="600" align="center"/>
+
+
+
+<img src="http://haus11.org/sails_srest2.PNG" width="600" align="center"/>
+
+
 ## Development
 
 ### Getting started
@@ -22,10 +31,3 @@ To start the the node.js server go into the root directory and run
 	grunt serve
 
 The server will watch any file changes, automatically lint your script and restart the server.
-
-
-<img src="http://haus11.org/sails_srest.PNG" width="600" align="center"/>
-
-
-
-<img src="http://haus11.org/sails_srest2.PNG" width="600" align="center"/>
