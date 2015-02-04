@@ -3,9 +3,6 @@ Sails-SRESTClient
 
 A debugger for RESTful sails.js socket services
 
-![alt tag](http://haus11.org/sails_srest.PNG)
-![alt tag](http://haus11.org/sails_srest2.PNG)
-
 ## Development
 
 ### Getting started
@@ -26,3 +23,7 @@ To start the the node.js server go into the root directory and run
 
 The server will watch any file changes, automatically lint your script and restart the server.
 
+
+
+![alt tag](http://haus11.org/sails_srest.PNG)
+![alt tag](http://haus11.org/sails_srest2.PNG)
