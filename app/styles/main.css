@@ -47,6 +47,9 @@ h4 {
 .valid-json {
   color: green;
 }
+html {
+  overflow-y: scroll;
+}
 /* Include this file in your html if you are using the CSP mode. */
 [ng\:cloak],
 [ng-cloak],

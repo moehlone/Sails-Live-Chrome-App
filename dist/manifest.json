@@ -8,14 +8,13 @@
     "48":"icon_48.png",
     "128":"icon_128.png"
   },
-  "app":{
-    "launch":{
-      "local_path":"index.html"
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
     }
   },
   "default_locale":"en",
-  "permissions":["<all_urls>","cookies", "storage"],
-  "content_security_policy": "default-src 'self'; connect-src *; script-src 'self' http://localhost:* https://localhost:* https://www.google-analytics.com; style-src * blob: data: filesystem: 'unsafe-inline'; img-src *; frame-src * http://www.facebook.com https://plusone.google.com https://platform.twitter.com blob: data: filesystem:; font-src * blob: data: filesystem:; media-src *;",
+  "permissions":["http://*/*", "https://*/*", "storage"],
   "manifest_version": 2,
   "offline_enabled":true
 }

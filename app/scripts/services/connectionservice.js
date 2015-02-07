@@ -28,8 +28,6 @@ angular.module('sails-tester')
 
     }
 
-    //window.onbeforeunload = clearConnection;
-
     // -----------------------------------------------------------------------------
     // Public api of the connection service
     // -----------------------------------------------------------------------------
@@ -41,6 +39,7 @@ angular.module('sails-tester')
 
         io.sails.useCORSRouteToGetCookie = false;
 
+        /*
         if(url.indexOf('http://localhost') > -1 || url.indexOf('https://localhost') > -1) {
 
           io.sails.useCORSRouteToGetCookie = true;
@@ -49,6 +48,7 @@ angular.module('sails-tester')
 
           io.sails.useCORSRouteToGetCookie = false;
         }
+        */
 
         if(socket !== null) {
 
