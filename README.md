@@ -51,11 +51,25 @@ Feel free to report your issues, suggestions and criticism at GitHub or via emai
 
 ###Screenshots
 
-<img src="http://haus11.org/sails_srest.PNG" width="600" align="center"/>
+<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/1.png" width="900" align="center"/>
 
 
 
-<img src="http://haus11.org/sails_srest2.PNG" width="600" align="center"/>
+
+<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/2.png" width="900" align="center"/>
+
+
+
+
+<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/3.png" width="900" align="center"/>
+
+
+
+
+<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/4.png" width="900" align="center"/>
+
+
+
 
 
 ## Development
@@ -74,7 +88,7 @@ To start the the node.js server go into the root directory and run
 
 	grunt serve
 
-The server will watches any file changes, injects bower components, automatically lints your scripts and restarts the server.
+The server will watch any file changes, inject bower components and automatically lints your scripts and restarts the server.
 
 For building the chrome application you have to run
 
