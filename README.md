@@ -1,4 +1,4 @@
-Sails-SRESTClient
+Sails Live
 ===
 
 A Sails.js WebSocket Client - Request and listen to your RESTful APIs
