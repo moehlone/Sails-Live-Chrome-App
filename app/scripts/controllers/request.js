@@ -8,17 +8,39 @@
  * Controller of the Sails-SRESTClient
  */
 angular.module('sails-tester')
-  .controller('RequestCtrl', function ($scope, $location, connectionService, notificationService, requests) {
+  .controller('RequestCtrl', function ($scope, $location, connectionService, notificationService, requests, storage) {
 
     if(!connectionService.isConnected()) {
 
       $location.path('/connect');
     }
 
+    if(storage.isAvailable()) {
+
+      storage.get('requests.' + connectionService.url()).then(function(data) {
+
+        $scope.requests = typeof data === 'undefined' ? [] : data;
+      });
+    }
+    else {
+
+      $scope.requests = requests;
+    }
+
+    connectionService.on('connect', function() {
+
+      $scope.connected = true;
+    });
+
+    connectionService.on('disconnect', function() {
+
+      $scope.connected = false;
+    });
+
+    $scope.connected = true;
     $scope.oneAtATime = false;
     $scope.requestPath = '';
     $scope.requestType = '';
-    $scope.requests = requests;
     $scope.requestTypes = [
       {id: 1, name: 'GET'},
       {id: 2, name: 'POST'},
@@ -31,26 +53,57 @@ angular.module('sails-tester')
       // axis: 'y'
     };
 
+    function syncRequestStorage() {
+
+      if(storage.isAvailable()) {
+
+        storage.set('requests.' + connectionService.url(), $scope.requests);
+
+      }
+    }
+
+    $scope.jsonCheck = function(request) {
+
+      if(request.payload === '') {
+
+        request.invalidJSONPayload = false;
+        return;
+      }
+
+      try {
+
+        JSON.parse(request.payload);
+        request.invalidJSONPayload = false;
+      }
+      catch(exception) {
+
+        request.invalidJSONPayload = true;
+        return;
+      }
+    };
+
     $scope.sendRequest = function (request) {
 
-      var paramsAsJson = {};
-
+      var payload = {};
       request.active = true;
 
-      if(request.parameters !== '') {
+      if(request.invalidJSONPayload) {
+
+        notificationService.warning('Invalid JSON syntax! Payload was ignored for ' + request.type.name + ' request on ' + request.path);
+      }
+      else if(request.payload !== '') {
 
         try {
 
-          paramsAsJson = JSON.parse(request.parameters);
+          payload = JSON.parse(request.payload);
         }
         catch(exception) {
 
-          paramsAsJson = {};
-          notificationService.warning('Invalid JSON syntax! Payload was ignored for ' + request.type.name + ' request on ' + request.path);
+          payload = {};
         }
       }
 
-      connectionService[request.type.name.toLowerCase()](request.path, paramsAsJson, function(data, jwres) {
+      connectionService[request.type.name.toLowerCase()](request.path, payload, function(data, jwres) {
 
         var notificationMessage = request.type.name + ' on ' + request.path + ' returned with status code ' + jwres.statusCode;
 
@@ -61,44 +114,50 @@ angular.module('sails-tester')
           notificationService.warning(notificationMessage);
         }
 
-        request.response = jwres;
+        request.response = jwres.toPOJO();
 
-        var jsonData = {};
+        /*
+        request.responseData = request.response.body;
 
-        try {
+        if(typeof request.responseData === 'object') {
 
-          jsonData = JSON.parse(data);
-          request.responseData = jsonData;
-
+          request.responseDataIsJSON = true;
         }
-        catch(exception) {
+        else {
 
-          request.responseData = data;
-        }
+          request.responseDataIsJSON = false;
+        }*/
 
         request.active = false;
+
+        syncRequestStorage();
       });
     };
 
     $scope.removeRequest = function(index) {
       $scope.requests.splice(index, 1);
+
+      syncRequestStorage();
     };
 
     $scope.addRequest = function () {
 
       $scope.requests.splice(0, 0, {
         path: $scope.requestPath,
-        parameters: '',
+        payload: '',
         type: $scope.requestType,
-        response: {},
-        responseData: {},
-        responseDataIsJSON: true,
+        response: false,
+        //responseData: false,
+        //responseDataIsJSON: true,
         panelOpen: true,
-        active: false
+        active: false,
+        invalidJSONPayload: false
       });
 
       $scope.requestPath = '';
       $scope.requestType = '';
+
+      syncRequestStorage();
     };
 
   });

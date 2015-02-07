@@ -9,7 +9,7 @@
  * Service in the assetsApp.
  */
 angular.module('sails-tester')
-  .service('connectionService', function ($rootScope) {
+  .service('connectionService', function ($rootScope, notificationService) {
     // -----------------------------------------------------------------------------
     // Create the connection to the game server. The "io" variable is the global
     // sails.io object. As an angular service will be instantiated only once, we can
@@ -17,6 +17,18 @@ angular.module('sails-tester')
     // -----------------------------------------------------------------------------
 
     var socket = null;
+    var isNew = true;
+
+    function clearConnection() {
+
+      if(socket !== null && socket.isConnected()) {
+
+        socket.disconnect();
+      }
+
+    }
+
+    //window.onbeforeunload = clearConnection;
 
     // -----------------------------------------------------------------------------
     // Public api of the connection service
@@ -25,47 +37,73 @@ angular.module('sails-tester')
 
       connect: function(url) {
 
-        io.sails.url = url;
-        io.sails.useCORSRouteToGetCookie = true; //don not change!
+        isNew = true;
 
-        socket = io.sails.connect();
+        io.sails.useCORSRouteToGetCookie = false;
 
-        // -----------------------------------------------------------------------------
-        // Setup connect and error events
-        // TODO: Use notification service or something to notify user whats going on
-        // -----------------------------------------------------------------------------
-        socket.on('connect', function() {
-          console.log('Successfully connected.');
+        if(url.indexOf('http://localhost') > -1 || url.indexOf('https://localhost') > -1) {
+
+          io.sails.useCORSRouteToGetCookie = true;
+        }
+        else{
+
+          io.sails.useCORSRouteToGetCookie = false;
+        }
+
+        if(socket !== null) {
+
+          clearConnection();
+        }
+
+        socket = io.sails.connect(url, {
+          transports: ['websocket']
         });
 
-        socket.on('connecting', function() {
-          console.log('connecting.');
+        socket.on('connect', function() {
+
+          isNew = false;
+          notificationService.success('Connection to ' + socket.url + ' established');
+        });
+
+        socket.on('reconnecting', function() {
+
+          notificationService.info('Trying to reconnect to ' + socket.url);
         });
 
         socket.on('reconnect', function() {
-          console.log('Successfully reconnected.');
+
+          //notificationService.success('Reconnected to ' + this.url);
         });
 
-        socket.on('connect_error', function() {
+        socket.on('disconnect', function() {
 
-          this.disconnect();
-          console.log('Connection error.');
+          notificationService.warning('Disconnected from ' + socket.url);
+        });
+
+        socket.on('connect_error', function(err) {
+
+          if(isNew) {
+            this.disconnect();
+          }
         });
 
         socket.on('connect_failed', function() {
 
           this.disconnect();
-          console.log('Connection error.');
+          notificationService.error('Connection failed');
         });
 
-        socket.on('error', function() {
+        socket.on('error', function(err) {
 
           this.disconnect();
-          console.log('Connection error.');
+          //console.log(err);
+          notificationService.error('Socket error');
         });
 
         socket.on('reconnect_failed', function() {
-          console.log('Could not reconnect within specified reconnection attempts.');
+
+          this.disconnect();
+          notificationService.error('Reconnection failed - Aborting');
         });
       },
 
@@ -94,7 +132,7 @@ angular.module('sails-tester')
       },
 
       delete: function(url, payload, callback) {
-        socket.post(url, payload, function() {
+        socket.delete(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
             callback.apply(socket, args);
@@ -103,7 +141,7 @@ angular.module('sails-tester')
       },
 
       put: function(url, payload, callback) {
-        socket.post(url, payload, function() {
+        socket.put(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
             callback.apply(socket, args);
@@ -120,8 +158,9 @@ angular.module('sails-tester')
         });
       },
 
-      off: function(event, fn) {
-        socket.off(event, fn);
+      url: function() {
+
+        return socket !== null ? socket.url : 'http://nosocket';
       },
 
       removeAllListeners: function() {

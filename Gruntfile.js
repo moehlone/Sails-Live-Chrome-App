@@ -168,7 +168,8 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath:  /\.\.\//,
+        exclude: ['bower_components/ladda/dist/ladda.min.css']
       },
       less: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{less}'],
@@ -316,7 +317,9 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/{,*/}*.*'
+            'fonts/{,*/}*.*',
+            '_locales/{,*/}*.json',
+            'manifest.json'
           ]
         }, {
           expand: true,
@@ -371,7 +374,7 @@ module.exports = function (grunt) {
       }
     }
   });
-  
+
   grunt.loadNpmTasks('grunt-contrib-less');
 
 

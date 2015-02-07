@@ -2,6 +2,9 @@
 
 'use strict';
 
+io.sails.autoConnect = false;
+io.sails.useCORSRouteToGetCookie = true;
+
 /**
  * @ngdoc overview
  * @name sails-tester
@@ -10,8 +13,6 @@
  *
  * Main module of the application.
  */
-
-io.sails.autoConnect = false;
 
 angular
   .module('sails-tester', [
@@ -24,9 +25,10 @@ angular
     'cgNotify',
     'ui.bootstrap',
     'ui.sortable',
-    'jsonFormatter'
+    'jsonFormatter',
+    'angular-ladda'
   ])
-  .config(function ($routeProvider, $provide) {
+  .config(function ($routeProvider, $provide, $compileProvider, laddaProvider) {
 
     $routeProvider
       .when('/', {
@@ -48,10 +50,16 @@ angular
         redirectTo: '/'
       });
 
+    $compileProvider.aHrefSanitizationWhitelist (/^\s*(https?|ftp|mailto|file|tel|chrome-extension):/);
+
     $provide.decorator('accordionDirective', function($delegate) {
       var directive = $delegate[0];
       directive.replace = true;
       return $delegate;
+    });
+
+    laddaProvider.setOption({
+      style: 'expand-left'
     });
   })
   .run(function(notify) {

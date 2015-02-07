@@ -38,9 +38,9 @@
         <accordion-body>
           <div class="form-group">
             <label>Event</label>
-            <input type="text" class="form-control" ng-model="listener.event"/>
+            <input type="text" class="form-control" ng-change="eventChange();" ng-model="listener.event"/>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-hide="!listener.response">
             <label>JSON Response</label>
             <json-formatter open="1" json="listener.response"></json-formatter>
           </div>
