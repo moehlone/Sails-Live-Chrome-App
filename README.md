@@ -1,9 +1,9 @@
 Sails Live
 ===
 
-Sails Live is a Sails.js WebSocket Client which supports you in testing your APIs.
+A Sails.js WebSocket Client which supports you in testing your APIs.
 
-What Is Sails.js?
+###What Is Sails.js?
 
 	"Sails makes it easy to build custom, enterprise-grade Node.js apps. 
 	It is designed to emulate the familiar MVC pattern of frameworks like 
@@ -16,17 +16,18 @@ What Is Sails.js?
 http://sailsjs.org/
 
 
-The developers of Sails.js made available a JavaScript Client SDK called sails.io.js (https://github.com/balderdashy/sails.io.js) which allows the communication with your sails application via sockets from Node.js or the browser. 
+The developers of Sails.js made available a JavaScript Client SDK called sails.io.js (https://github.com/balderdashy/sails.io.js) which allows realtime communication with your sails application via sockets from Node.js or the browser. 
 
-
+###What is Sails Live?
 
 Sails Live implements this SDK and provides a full function client for requesting and listening to your RESTful routes. This brings you the opportunity to debug and test your whole interfaces and sessions such as automated listening and this even for custom and publish/subscribe events.
 
 
-Features:
+###Features:
 
-- Socket connection support for local and remote Sails.js applications / interfaces
-- Requesting of GET, POST, PUT and DELETE routes
+- Socket connection support for local and remote Sails.js applications / interfaces (remember to configure CORS)
+- Requesting of GET, POST, PUT and DELETE routes with custom payload
+- Realtime payload validation (JSON validation)
 - Request management (edit, remove, sort or inspect your created requests)
 - Event registration (on which the connected socket should listen to)
 - Create, manage and inspect your listeners
@@ -34,16 +35,21 @@ Features:
 - Collapsable response inspector
 - Request and listener storage (use of Chrome local storage)
 
-Prospective:
+###Prospective:
 
 - Listener queue (list and save all incoming events with date and time information)
 - Multiple connections (select the socket you need for each request and listener)
+- Connection history
+- Automated API tests with configuration
+- Import/Export of custom settings
+
+
+
 
 This application is free to use and open source. Source code is available at https://github.com/moehlone/Sails-Live-Chrome-App. 
-
 Feel free to report your issues, suggestions and criticism at GitHub or via email (philipp.moehler@haus11.org).
 
-
+###Screenshots
 
 <img src="http://haus11.org/sails_srest.PNG" width="600" align="center"/>
 
