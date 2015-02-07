@@ -1,7 +1,7 @@
 Sails-SRESTClient
 ===
 
-A debugger for RESTful sails.js socket services
+A Sails.js WebSocket Client - Request and listen to your RESTful APIs
 
 
 
@@ -20,14 +20,18 @@ The first thing to do is to clone this repository and run
 	
 	npm install
 
-in both, the root and the client folder in order to install all environment dependencies.
-After that make sure to install all bower components in the client folder by running
+After that make sure to install all bower components
 
 	bower install
 
-### Develop
 To start the the node.js server go into the root directory and run 
 
 	grunt serve
 
-The server will watch any file changes, automatically lint your script and restart the server.
+The server will watches any file changes, injects bower components, automatically lints your scripts and restarts the server.
+
+For building the chrome application you have to run
+
+	grunt build
+
+Import the newly updated/created dist folder to chrome for plugin creation.
