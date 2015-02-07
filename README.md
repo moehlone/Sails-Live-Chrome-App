@@ -3,6 +3,8 @@ Sails Live
 
 A Sails.js WebSocket Client which supports you in testing your APIs.
 
+https://chrome.google.com/webstore/detail/sails-live/hcabckokmgcienfmiadckelpjhhnfklp?hl=de
+
 ###What Is Sails.js?
 
 	"Sails makes it easy to build custom, enterprise-grade Node.js apps. 
