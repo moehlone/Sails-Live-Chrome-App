@@ -15,6 +15,7 @@ angular.module('sails-tester')
       $location.path('/connect');
     }
 
+
     if(storage.isAvailable()) {
 
       storage.get('requests.' + connectionService.url()).then(function(data) {
