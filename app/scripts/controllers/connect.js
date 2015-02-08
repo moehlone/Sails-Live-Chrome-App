@@ -45,7 +45,7 @@ angular.module('sails-tester')
 
 
       //initialize socket listeners
-      if(storage.isAvailable() && connectionService.isNew()) {
+      if(storage.isAvailable() && !connectionService.isReconnect()) {
 
         storage.get('listeners.' + connectionService.url()).then(function(listeners) {
 

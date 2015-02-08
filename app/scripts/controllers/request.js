@@ -92,7 +92,7 @@ angular.module('sails-tester')
 
       if(request.invalidJSONPayload) {
 
-        notificationService.warning('Invalid JSON syntax! Payload was ignored for ' + request.type.name + ' request on ' + request.path);
+        notificationService.warning('Invalid JSON syntax! Payload was ignored for ' + request.type + ' request on ' + request.path);
       }
       else if(request.payload !== '') {
 
@@ -105,10 +105,10 @@ angular.module('sails-tester')
           payload = {};
         }
       }
+      console.log(request);
+      connectionService[request.type.toLowerCase()](request.path, payload, function(data, jwres) {
 
-      connectionService[request.type.name.toLowerCase()](request.path, payload, function(data, jwres) {
-
-        var notificationMessage = request.type.name + ' on ' + request.path + ' returned with status code ' + jwres.statusCode;
+        var notificationMessage = request.type + ' on ' + request.path + ' returned with status code ' + jwres.statusCode;
 
         if(jwres.statusCode === 200) {
           notificationService.success(notificationMessage);
@@ -148,7 +148,7 @@ angular.module('sails-tester')
       $scope.requests.splice(0, 0, {
         path: $scope.requestPath,
         payload: '',
-        type: $scope.requestType,
+        type: $scope.requestType.name,
         response: false,
         //responseData: false,
         //responseDataIsJSON: true,

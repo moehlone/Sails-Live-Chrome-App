@@ -18,6 +18,7 @@ angular.module('sails-tester')
 
     var socket = null;
     var isNew = true;
+    var isReconnect = false;
     var usedURLs = [];
 
     function clearConnection() {
@@ -25,6 +26,7 @@ angular.module('sails-tester')
       if(socket !== null && socket.isConnected()) {
 
         socket.disconnect();
+        isReconnect = false;
       }
 
     }
@@ -34,9 +36,9 @@ angular.module('sails-tester')
     // -----------------------------------------------------------------------------
     return {
 
-      isNew: function() {
+      isReconnect: function() {
 
-        return isNew;
+        return isReconnect;
       },
 
       connect: function(url, cbUrlUsed) {
@@ -87,11 +89,13 @@ angular.module('sails-tester')
 
         socket.on('reconnecting', function() {
 
+          isReconnect = true;
           notificationService.info('Trying to reconnect to ' + socket.url);
         });
 
         socket.on('reconnect', function() {
 
+          isReconnect = true;
           //notificationService.success('Reconnected to ' + this.url);
         });
 
