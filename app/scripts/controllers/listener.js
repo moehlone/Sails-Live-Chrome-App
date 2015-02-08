@@ -48,11 +48,13 @@ angular.module('sails-tester')
       storage.get('listeners.' + connectionService.url()).then(function(data) {
 
         $scope.listeners = typeof data === 'undefined' ? [] : data;
+        rebindEvents();
       });
     }
     else {
 
       $scope.listeners = listeners;
+      rebindEvents();
     }
 
     $scope.oneAtATime = false;

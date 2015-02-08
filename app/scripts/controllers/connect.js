@@ -59,7 +59,19 @@ angular.module('sails-tester')
 
               connectionService.on(listener.event, function(response) {
                 notificationService.info('Listener with event "' + listener.event + '" got triggered.');
-                listener.response = response;
+
+                storage.get('listeners.' + connectionService.url()).then(function(listenersStorage) {
+
+                  for(var j = 0; j < listenersStorage.length; ++j) {
+
+                    if(listenersStorage[j].event === listener.event) {
+
+                        listenersStorage[j].response = response;
+                    }
+                  }
+
+                  storage.set('listeners.' + connectionService.url(), listenersStorage);
+                });
               });
             }
           }
