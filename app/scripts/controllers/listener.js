@@ -15,28 +15,6 @@ angular.module('sails-tester')
       $location.path('/connect');
     }
 
-    if(storage.isAvailable()) {
-
-      storage.get('listeners.' + connectionService.url()).then(function(data) {
-
-        $scope.listeners = typeof data === 'undefined' ? [] : data;
-        rebindEvents();
-      });
-    }
-    else {
-
-      $scope.listeners = listeners;
-      rebindEvents();
-    }
-
-    $scope.oneAtATime = false;
-    $scope.listenerEvent = '';
-    $scope.sortableOptions = {
-      handle: ' .handle'
-      // items: ' .panel:not(.panel-heading)'
-      // axis: 'y'
-    };
-
     function syncListenerStorage() {
 
       if(storage.isAvailable()) {
@@ -48,8 +26,8 @@ angular.module('sails-tester')
     function rebindEvents() {
 
       /*
-      *   socket.off(event, fn) is not working properly! So we have to go this way..
-      */
+       *   socket.off(event, fn) is not working properly! So we have to go this way..
+       */
 
       connectionService.removeAllListeners();
 
@@ -63,6 +41,26 @@ angular.module('sails-tester')
           syncListenerStorage();
         });
       }
+    }
+
+    if(storage.isAvailable()) {
+
+      storage.get('listeners.' + connectionService.url()).then(function(data) {
+
+        $scope.listeners = typeof data === 'undefined' ? [] : data;
+      });
+    }
+    else {
+
+      $scope.listeners = listeners;
+    }
+
+    $scope.oneAtATime = false;
+    $scope.listenerEvent = '';
+    $scope.sortableOptions = {
+      handle: ' .handle'
+      // items: ' .panel:not(.panel-heading)'
+      // axis: 'y'
     };
 
     $scope.removeListener = function(index) {

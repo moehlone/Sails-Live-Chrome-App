@@ -28,13 +28,19 @@ angular
     'jsonFormatter',
     'angular-ladda'
   ])
-  .config(function ($routeProvider, $provide, $compileProvider, laddaProvider) {
+  .config(function ($locationProvider, $routeProvider, $provide, $compileProvider, laddaProvider) {
+
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension):/);
 
     $routeProvider
       .when('/', {
         redirectTo: '/connect'
       })
       .when('/connect', {
+        templateUrl: 'views/connect.html',
+        controller: 'ConnectCtrl'
+      })
+      .when('/connect/:url', {
         templateUrl: 'views/connect.html',
         controller: 'ConnectCtrl'
       })
@@ -49,8 +55,6 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-
-    $compileProvider.aHrefSanitizationWhitelist (/^\s*(https?|ftp|mailto|file|tel|chrome-extension):/);
 
     $provide.decorator('accordionDirective', function($delegate) {
       var directive = $delegate[0];

@@ -18,6 +18,7 @@ angular.module('sails-tester')
 
     var socket = null;
     var isNew = true;
+    var usedURLs = [];
 
     function clearConnection() {
 
@@ -33,9 +34,28 @@ angular.module('sails-tester')
     // -----------------------------------------------------------------------------
     return {
 
-      connect: function(url) {
+      isNew: function() {
+
+        return isNew;
+      },
+
+      connect: function(url, cbUrlUsed) {
 
         isNew = true;
+
+        for(var i=0; i < usedURLs.length; ++i) {
+
+          if(usedURLs[i].indexOf(url) > -1) {
+
+            if(typeof cbUrlUsed === 'function') {
+              cbUrlUsed();
+            }
+
+            return;
+          }
+        }
+
+        usedURLs.push(url);
 
         io.sails.useCORSRouteToGetCookie = false;
 
@@ -80,7 +100,7 @@ angular.module('sails-tester')
           notificationService.warning('Disconnected from ' + socket.url);
         });
 
-        socket.on('connect_error', function(err) {
+        socket.on('connect_error', function() {
 
           if(isNew) {
             this.disconnect();
@@ -93,10 +113,9 @@ angular.module('sails-tester')
           notificationService.error('Connection failed');
         });
 
-        socket.on('error', function(err) {
+        socket.on('error', function() {
 
           this.disconnect();
-          //console.log(err);
           notificationService.error('Socket error');
         });
 
@@ -114,6 +133,11 @@ angular.module('sails-tester')
       },
 
       get: function(url, payload, callback) {
+
+        if(!this.isConnected()) {
+          return;
+        }
+
         socket.get(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
@@ -123,6 +147,11 @@ angular.module('sails-tester')
       },
 
       post: function(url, payload, callback) {
+
+        if(!this.isConnected()) {
+          return;
+        }
+
         socket.post(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
@@ -132,6 +161,11 @@ angular.module('sails-tester')
       },
 
       delete: function(url, payload, callback) {
+
+        if(!this.isConnected()) {
+          return;
+        }
+
         socket.delete(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
@@ -141,6 +175,11 @@ angular.module('sails-tester')
       },
 
       put: function(url, payload, callback) {
+
+        if(!this.isConnected()) {
+          return;
+        }
+
         socket.put(url, payload, function() {
           var args = arguments;
           $rootScope.$apply(function() {
@@ -150,6 +189,11 @@ angular.module('sails-tester')
       },
 
       on: function (eventName, callback) {
+
+        if(socket === null) {
+          return;
+        }
+
         socket.on(eventName, function () {
           var args = arguments;
           $rootScope.$apply(function () {
@@ -164,7 +208,10 @@ angular.module('sails-tester')
       },
 
       removeAllListeners: function() {
-        socket.removeAllListeners();
+
+        if(socket !== null) {
+          socket.removeAllListeners();
+        }
       }
     };
   });

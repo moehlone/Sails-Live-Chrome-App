@@ -2,6 +2,18 @@
   <div class="col-md-12 column">
     <h1>Connect to Sails Server</h1>
     <form role="form" name="connectForm">
+      <div class="alert alert-warning alert-dismissible" role="alert" ng-show="urlUsed">
+        <button type="button" class="close" aria-label="Close" data-dismiss="alert" ><span aria-hidden="true">&times;</span></button>
+        <strong>Warning</strong><br/>
+        <br/>
+        Currently there is a problem for manual disconnect and reconnect to a socket for the same URL.
+        So if you want to switch back to an already used URL, please restart the application.
+        <br/><br/>
+        For more information see:<br/><br/>
+
+        https://github.com/balderdashy/sails.io.js/issues/43<br/>
+        https://github.com/moehlone/Sails-Live-Chrome-App/issues/3
+      </div>
       <div class="form-group">
         <label for="sails-url">URL</label>
         <input placeholder="http://localhost:1337" type="url" class="form-control" id="sails-url" name="sails-url" ng-model="serverAddress" required/>

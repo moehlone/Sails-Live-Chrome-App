@@ -8,10 +8,11 @@
  * Controller of the Sails-SRESTClient
  */
 angular.module('sails-tester')
-  .controller('ConnectCtrl', function ($scope, $location, notificationService, connectionService, $timeout) {
+  .controller('ConnectCtrl', function ($window, $scope, $location, storage, notificationService, connectionService, $timeout, $routeParams, $route) {
 
-    $scope.serverAddress = '';
+    $scope.serverAddress = typeof $routeParams.url !== 'undefined' ? $routeParams.url : '';
     $scope.loginLoading = false;
+    $scope.urlUsed = false;
 
     var connectTimeout = null;
 
@@ -19,7 +20,10 @@ angular.module('sails-tester')
 
       $scope.loginLoading = true;
 
-      connectionService.connect($scope.serverAddress);
+      connectionService.connect($scope.serverAddress, function() {
+
+        $scope.urlUsed = true;
+      });
 
       connectionService.on('connect', onConnect);
 
@@ -32,17 +36,44 @@ angular.module('sails-tester')
 
     function onConnect() {
 
+      $scope.urlUsed = false;
+
       if(connectTimeout !== null) {
 
         $timeout.cancel(connectTimeout);
       }
 
-      //fake timeout because indicator is nice
-      $timeout(function() {
 
-        $scope.loginLoading = false;
-        $location.path('/listener');
+      //initialize socket listeners
+      if(storage.isAvailable() && connectionService.isNew()) {
 
-      }, 1000);
+        storage.get('listeners.' + connectionService.url()).then(function(listeners) {
+
+          if(typeof listeners !== 'undefined') {
+
+            connectionService.removeAllListeners();
+
+            for(var i = 0; i < listeners.length; ++i) {
+
+              var listener = listeners[i];
+
+              connectionService.on(listener.event, function(response) {
+                notificationService.info('Listener with event "' + listener.event + '" got triggered.');
+                listener.response = response;
+              });
+            }
+          }
+        });
+      }
+
+      if($location.path().indexOf('connect') > -1) {
+        //fake timeout because indicator is nice
+        $timeout(function() {
+
+          $scope.loginLoading = false;
+          $location.path('/request');
+
+        }, 500);
+      }
     }
   });

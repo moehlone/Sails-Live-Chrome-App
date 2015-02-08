@@ -28,6 +28,24 @@ angular.module('sails-tester')
       $scope.requests = requests;
     }
 
+    $scope.connected = true;
+    $scope.oneAtATime = false;
+    $scope.requestPath = '';
+    $scope.requestType = '';
+
+    $scope.requestTypes = [
+      {id: 1, name: 'GET'},
+      {id: 2, name: 'POST'},
+      {id: 3, name: 'PUT'},
+      {id: 4, name: 'DELETE'}
+    ];
+
+    $scope.sortableOptions = {
+      handle: ' .handle'
+      // items: ' .panel:not(.panel-heading)'
+      // axis: 'y'
+    };
+
     connectionService.on('connect', function() {
 
       $scope.connected = true;
@@ -37,22 +55,6 @@ angular.module('sails-tester')
 
       $scope.connected = false;
     });
-
-    $scope.connected = true;
-    $scope.oneAtATime = false;
-    $scope.requestPath = '';
-    $scope.requestType = '';
-    $scope.requestTypes = [
-      {id: 1, name: 'GET'},
-      {id: 2, name: 'POST'},
-      {id: 3, name: 'PUT'},
-      {id: 4, name: 'DELETE'}
-    ];
-    $scope.sortableOptions = {
-      handle: ' .handle'
-      // items: ' .panel:not(.panel-heading)'
-      // axis: 'y'
-    };
 
     function syncRequestStorage() {
 
