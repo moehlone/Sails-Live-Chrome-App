@@ -1,31 +1,13 @@
-Sails Live
-===
+#What is Sails Live?
 
-A Sails.js WebSocket Client which supports you in testing your APIs.
+Sails Live is a WebSocket Client to maintain and debug your [Sails.js](http://sailsjs.org/) realtime applications. It supports all the functionality of the [Sails.js JavaScript Client SDK](https://github.com/balderdashy/sails.io.js) providing a lightweight user interface to manage requests and event listeners.
 
-https://chrome.google.com/webstore/detail/sails-live/hcabckokmgcienfmiadckelpjhhnfklp?hl=de
+###Download
 
-###What Is Sails.js?
-
-	"Sails makes it easy to build custom, enterprise-grade Node.js apps. 
-	It is designed to emulate the familiar MVC pattern of frameworks like 
-	Ruby on Rails, but with support for the requirements of modern apps: 
-	data-driven APIs with a scalable, service-oriented architecture. 
-	It's especially good for building chat, realtime dashboards, or 
-	multiplayer games; but you can use it for any web application 
-	project - top to bottom."
-
-http://sailsjs.org/
+The application is available as Google Chrome Plugin and can be downloaded [here](https://chrome.google.com/webstore/detail/sails-live/hcabckokmgcienfmiadckelpjhhnfklp).
 
 
-The developers of Sails.js made available a JavaScript Client SDK called sails.io.js (https://github.com/balderdashy/sails.io.js) which allows realtime communication with your sails application via sockets from Node.js or the browser. 
-
-###What is Sails Live?
-
-Sails Live implements this SDK and provides a full function client for requesting and listening to your RESTful routes. This brings you the opportunity to debug and test your whole interfaces and sessions such as automated listening and this even for custom and publish/subscribe events.
-
-
-###Features:
+###Features
 
 - Socket connection support for local and remote Sails.js applications / interfaces (remember to configure CORS)
 - Requesting of GET, POST, PUT and DELETE routes with custom payload
@@ -35,9 +17,9 @@ Sails Live implements this SDK and provides a full function client for requestin
 - Create, manage and inspect your listeners
 - Observe realtime notifications
 - Collapsable response inspector
-- Request and listener storage (use of Chrome local storage)
+- Request and listener storage (use of Google Chrome local storage)
 
-###Prospective:
+###Prospective
 
 - Listener queue (list and save all incoming events with date and time information)
 - Multiple connections (select the socket you need for each request and listener)
@@ -46,35 +28,26 @@ Sails Live implements this SDK and provides a full function client for requestin
 - Import/Export of custom settings
 
 
-
-
-This application is free to use and open source. Source code is available at https://github.com/moehlone/Sails-Live-Chrome-App. 
-Feel free to report your issues, suggestions and criticism at GitHub or via email (philipp.moehler@haus11.org).
-
 ###Screenshots
 
-<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/1.png" width="900" align="center"/>
+![Connect to your Sails.js Application](https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/1.png)
 
 
+----------
 
 
-<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/2.png" width="900" align="center"/>
+![Connect to your Sails.js Application](https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/2.png)
 
 
+----------
 
 
-<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/3.png" width="900" align="center"/>
+![Connect to your Sails.js Application](https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/4.png)
 
 
+#Contribute
 
-
-<img src="https://raw.githubusercontent.com/moehlone/Sails-Live-Chrome-App/screenshots/4.png" width="900" align="center"/>
-
-
-
-
-
-## Development
+This application is free to use and open source. Contributions are welcome and also feel free to report your issues or suggestions at GitHub or via [email](philipp.moehler@haus11.org).
 
 ### Getting started
 
@@ -97,3 +70,18 @@ For building the chrome application you have to run
 	grunt build
 
 Import the newly updated/created dist folder to chrome for plugin creation.
+
+
+#License
+
+The MIT License (MIT)
+
+Copyright (c) [2015] [Philipp Möhler]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: 
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
